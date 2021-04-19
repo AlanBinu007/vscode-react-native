@@ -21,8 +21,12 @@ const localize = nls.loadMessageBundle();
  */
 export class WpfPlatform extends WindowsPlatform {
     private static WPF_SUPPORTED = "0.55.0";
-    constructor(protected runOptions: IWindowsRunOptions, platformDeps: MobilePlatformDeps = {}) {
-        super(runOptions, platformDeps);
+    constructor(
+        protected runOptions: IWindowsRunOptions,
+        platformDeps: MobilePlatformDeps = {},
+        nodeModulesRoot: string,
+    ) {
+        super(runOptions, platformDeps, nodeModulesRoot);
     }
 
     public runApp(enableDebug: boolean = true): Promise<void> {
@@ -77,7 +81,7 @@ export class WpfPlatform extends WindowsPlatform {
                 this.runArguments.push("--no-packager");
             }
 
-            const exec = new CommandExecutor(this.projectPath, this.logger);
+            const exec = new CommandExecutor(this.nodeModulesRoot, this.projectPath, this.logger);
             return new Promise((resolve, reject) => {
                 const appName = this.projectPath.split(path.sep).pop();
                 // Killing another instances of the app which were run earlier
