@@ -85,8 +85,8 @@ export class WpfPlatform extends WindowsPlatform {
             return new Promise((resolve, reject) => {
                 const appName = this.projectPath.split(path.sep).pop();
                 // Killing another instances of the app which were run earlier
-                return exec.execute(`cmd /C Taskkill /IM ${appName}.exe /F`).finally(async () => {
-                    const runWpfSpawn = await exec.spawnReactCommand(
+                return exec.execute(`cmd /C Taskkill /IM ${appName}.exe /F`).finally(() => {
+                    const runWpfSpawn = exec.spawnReactCommand(
                         `run-${this.platformName}`,
                         this.runArguments,
                         { env },
